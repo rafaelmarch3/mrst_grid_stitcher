@@ -84,7 +84,7 @@ classdef GridStitcher
                 model.operators.T = [model.operators.T; op_list{i}.T]; 
             end
             for i = 1:size(connections, 1)
-                model.operators.T = [model.operators.T; 1e-19]; 
+                model.operators.T = [model.operators.T; 0.0]; 
             end
             
             % faceUpstr - as multiplication with matrix
