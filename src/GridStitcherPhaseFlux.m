@@ -23,10 +23,15 @@ classdef GridStitcherPhaseFlux < StateFunction
             for j = 1:length(nnc_ids)
                 conn_id = nnc_ids(j);
                 vf = model.G.StitchedGrids.transfer_models{j}(model, state, conn_id);
+                
                 for i = 1:numel(mob)
                     v{i}(conn_id) = vf{i};
                 end
             end
+            
+            disp(v{1}.val);
+            disp(v{2}.val);
+            disp('----');
             
         end
     end

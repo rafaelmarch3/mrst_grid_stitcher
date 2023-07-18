@@ -50,8 +50,7 @@ cells_new = (G1.cells.num+1 : G1.cells.num + G2.cells.num)';
 connections = [cells_orig, cells_new]; % These are global ids
 
 %% Transfer
-nncs_trans = 0.6908e-14;
-transfer = @(model, state, conn_id)transfer_example_1(model, state, conn_id, nncs_trans);
+transfer = @(model, state, conn_id)transfer_example_1(model, state, conn_id);
 
 %% Transfer models
 transfer_models = cell(size(connections,1),1);
@@ -83,13 +82,16 @@ fig1 = figure('Position',[100,100,600,600]);
 fig1.Color = 'w';
 
 %% Time loop
-dt = 100*day;
+dt = 1000*day;
 tmax = 1000*dt;
 t = 0;
 while t<=tmax
     
     disp(['Time = ',num2str(t/day), ' days'])
     state = solver.solveTimestep(state, dt, model, 'bc', [], 'src', src);
+    
+%     aux = G.cells.num;
+%     G.cells.num = 7;
     
     figure(fig1)
     subplot(2,1,1);
