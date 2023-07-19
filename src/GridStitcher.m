@@ -25,16 +25,16 @@ classdef GridStitcher
             for i = 1:length(grids)
                 number_new_cells = number_new_cells + grids{i}.cells.num;
                 all_centroids = [all_centroids; grids{i}.cells.centroids]; %#ok<AGROW>
-%                 model.rock.regions.saturation = [model.rock.regions.saturation;rocks{i}.regions.saturation];
+                model.rock.regions.saturation = [model.rock.regions.saturation;rocks{i}.regions.saturation];
             end
-%             model.fluid.krW = {model.fluid.krW, fluids{1}.krW};
-%             model.fluid.krO = {model.fluid.krO, fluids{1}.krO};
-%             model.fluid.pcOW = {model.fluid.pcOW, fluids{1}.pcOW};
-%             for i=2:length(grids)
-%                 model.fluid.krW = {model.fluid.krW{:}, fluids{i}.krW};
-%                 model.fluid.krO = {model.fluid.krO{:}, fluids{i}.krO};
-%                 model.fluid.pcOW = {model.fluid.pcOW{:}, fluids{i}.pcOW};
-%             end
+            model.fluid.krW = {model.fluid.krW, fluids{1}.krW};
+            model.fluid.krO = {model.fluid.krO, fluids{1}.krO};
+            model.fluid.pcOW = {model.fluid.pcOW, fluids{1}.pcOW};
+            for i=2:length(grids)
+                model.fluid.krW = {model.fluid.krW{:}, fluids{i}.krW};
+                model.fluid.krO = {model.fluid.krO{:}, fluids{i}.krO};
+                model.fluid.pcOW = {model.fluid.pcOW{:}, fluids{i}.pcOW};
+            end
             model.G.cells.centroids = all_centroids;
             model.G.StitchedGrids.total_cell_num = model.G.cells.num + number_new_cells;
             
