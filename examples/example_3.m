@@ -32,15 +32,15 @@ G2 = computeGeometry(G2);
 %% Set up rock properties
 rock1 = makeRock(G1, 1*milli*darcy, .1);
 rock1.regions.saturation = ones(G1.cells.num,1)
-rock2 = makeRock(G1, 0.001*milli*darcy, .1);
+rock2 = makeRock(G1, 1*milli*darcy, .1);
 rock2.regions.saturation = 2*ones(G2.cells.num,1)
 %% Set up fluid
 fluid1 = initSimpleADIFluid('phases', 'WO',...
                                 'c', [1e-11,1e-11]/psia,...
-                                'n', [1,1],...
+                                'n', [2,2],...
                                 'mu',[1, 1]*centi*poise,...
                                 'rho',[1000, 0.01]);
-Pe1 = 1*kilo;
+Pe1 = 0*kilo;
 pc1 = @(sw)Pe1*sw.^-0.5;
 fluid1.pcOW = pc1;
 
@@ -64,7 +64,8 @@ cells_new = (G1.cells.num+1 : G1.cells.num + G2.cells.num)';
 connections = [cells_orig, cells_new]; % These are global ids
 
 %% Transfer
-transfer = @(model, state, conn_id)transfer_example_1(model, state, conn_id);
+nncs_trans = 0.6908e-14;
+transfer = @(model, state, conn_id)transfer_example_1(model, state, conn_id, nncs_trans);
 
 %% Transfer models
 transfer_models = cell(size(connections,1),1);
@@ -81,8 +82,8 @@ model = gridStitcher.stitch(model, {G2}, {rock2}, {fluid2}, connections, transfe
 %% Boundary conditions
 bc = [];
 src = [];
-src = addSource(src, 7, 1e-6, 'sat', [0, 1]);
-src = addSource(src, 8, -1e-6, 'sat', [0, 1]);
+src = addSource(src, 1, 1e-6, 'sat', [0, 1]);
+src = addSource(src, 7, -1e-6, 'sat', [0, 1]);
 %% Initializing state 
 W = [];
 state = initResSol(model.G, 1000*psia, [1, 0]);
